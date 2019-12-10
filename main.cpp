@@ -25,7 +25,7 @@ int main() {
     int grid[100][100];
     getGrid(grid);
     double k = 0.5; // коэффициент диффузии
-    double e = 1e-4; // точность
+    double e = 5 * 1e-5; // точность
     int coef = M / 100;
     double h = 1.0 / M;
     double t = (h * h) / (4 * k);
@@ -61,8 +61,8 @@ int main() {
     double u;
     int n = 0;
     double max_error = 10000;
-    //while(max_error > e) {
-    while (n < 5000) {
+    while(max_error > e) {
+    //while (n < 10000) {
         n++;
         double epoch_error = 0;
 
@@ -84,14 +84,16 @@ int main() {
                     u += c * u_old[(i - 1)*M+j];
                 }
                 else {
-                    u += b * u_old[i*M+j];
+                    u += c * u_old[i*M+j];
+                    //u += b * u_old[i*M+j];
                 }
 
                 if (i < M - 1 && grid[(i + 1) / coef][j / coef] > 0) {
                     u += b * u_old[(i + 1)*M+j];
                 }
                 else {
-                    u += c * u_old[i*M+j];
+                    u += b * u_old[i*M+j];
+                    //u += c * u_old[i*M+j];
                 }
 
                 if (j > 0  && grid[i / coef][(j - 1) / coef] > 0) {
